@@ -1,0 +1,65 @@
+﻿@model IEnumerable<CRUD_Pessoa_Fisica_Juridica.ViewModel.EnderecoViewModel>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Logradouro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Numero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cidade)
+            </th>
+            <th></th>
+        </tr>
+
+
+        @foreach (var endereco in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(model => endereco.Logradouro)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => endereco.Numero)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => endereco.Cidade)
+                </td>
+                <td>
+                    <a href="@Url.Action("EditEndereco", "Cliente", new { id = endereco.Id, pessoaId = ViewBag.PessoaFisicaId, tipo = "enderecoFisico", indice = Guid.Empty })" data-modal="" class="btn btn-warning">
+                        <span title="Editar" class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                    <a href="@Url.Action("DeleteEndereco", "Cliente", new { id = endereco.Id, pessoaId = ViewBag.PessoaFisicaId, tipo = "enderecoFisico", indice = Guid.Empty })" data-modal="" class="btn btn-danger">
+                        <span title="Deletar" class="glyphicon glyphicon-remove"></span>
+                    </a>                  
+                </td>
+
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                Nenhum Endereço Cadastrado.
+            </th>
+        </tr>
+    </table>
+}
+
+<div>
+    <div>       
+        <a href="@Url.Action("AdicionarEndereco", "Cliente", new { pessoaId = ViewBag.PessoaFisicaId, tipo = "enderecoFisico", indice = Guid.NewGuid()})" data-modal="" class="btn btn-primary">
+            <span title="Adicionar" class="glyphicon glyphicon-plus"></span>
+        </a>
+    </div>
+</div>
+

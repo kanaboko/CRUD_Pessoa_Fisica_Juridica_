@@ -1,0 +1,88 @@
+﻿@model IEnumerable<CRUD_Pessoa_Fisica_Juridica.ViewModel.PessoaJuridicaViewModel>
+
+@if (Model.Any())
+{
+
+
+    <table class="table table-striped">
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.RazaoSocial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cnpj)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            ViewBag.PessoaJuridicaId = item.Id;
+            ViewBag.PessoaJuridicaCNPJ = item.Id;
+
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(model => item.RazaoSocial)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Cnpj)
+                </td>
+                <td>
+                    <a href="@Url.Action("EditPessoaJuridica", "Cliente", new { id = item.Id })" data-modal="" class="btn btn-warning">
+                        <span title="Editar" class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                    <a href="@Url.Action("DeletePessoaJuridica", "Cliente", new { id = item.Id, pessoaId = item.PessoaId, tipo = "pj" })" data-modal="" class="btn btn-danger">
+                        <span title="Deletar" class="glyphicon glyphicon-remove"></span>
+                    </a>                   
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Lista de endereços do @item.RazaoSocial</div>
+                        <div class="panel-body">
+                            <div id="replace-@item.Id">
+                                @Html.Partial("_ListarEnderecoJuridico", item.Enderecos)
+                            </div>
+                        </div>
+                    </div>
+                    
+                </td>
+            </tr>
+
+
+        }
+    </table>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                Nenhuma Pessoa Juridica Cadastrada.
+            </th>
+        </tr>
+    </table>
+}
+
+<div>
+    <div>
+        <a href="@Url.Action("AdicionarPessoaJuridica", "Cliente", new { pessoaId = ViewBag.PessoaId })" data-modal="" class="btn btn-primary">
+            <span title="Adicionar" class="glyphicon glyphicon-plus"></span>
+        </a>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

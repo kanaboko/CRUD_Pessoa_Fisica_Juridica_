@@ -1,0 +1,177 @@
+﻿@model CRUD_Pessoa_Fisica_Juridica.ViewModel.PessoaViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div id="myModalContent"></div>
+        </div>
+    </div>
+</div>
+
+<h2>Editar @Model.PessoaFisica.Nome</h2>
+
+
+@*@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>ID- @Model.Id</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.DataCadastro)
+
+        
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+}*@
+
+<div id="replacePessoaFisica">
+    @Html.Partial("_ListarPessoaFisica", Model.PessoaFisica)
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Lista de endereços do cliente @Model.PessoaFisica.Nome</div>
+    <div class="panel-body">
+        <div id="replaceEnderecoPessoaFisica">
+            @Html.Partial("_ListarEndereco", Model.PessoaFisica.Enderecos)
+        </div>
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">Lista de Pessoas Jurídicas do cliente @Model.PessoaFisica.Nome</div>
+    <div class="panel-body">
+        <div id="replacePessoaJuridica">
+            @Html.Partial("_ListarJuridica", Model.PessoaJuridica)
+        </div>
+    </div>
+</div>
+
+
+<hr />
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+        $.ajaxSetup({ cache: false });
+
+        $('a[data-modal]').on("click", function (e) {
+            $('#myModalContent').load(this.href, function () {
+                $('#myModal').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+            return false;
+        });
+    });
+
+    function bindForm(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    var ind = result.indice;
+                    if (result.success && result.tipo == "pf") {
+                        $('#myModal').modal('hide');
+                        $('#replacePessoaFisica').load(result.url); // Carrega o resultado HTML para a div demarcada
+                    } else if (result.success && result.tipo == "pj") {
+                        $('#myModal').modal('hide');
+                        $('#replacePessoaJuridica').load(result.url); // Carrega o resultado HTML para a div demarcada
+                    } else if (result.success && result.tipo == "enderecoFisico") {
+                        $('#myModal').modal('hide');
+                        $('#replaceEnderecoPessoaFisica').load(result.url); // Carrega o resultado HTML para a div demarcada
+                    } else if (result.success && result.tipo == "enderecoJuridico") {
+                        $('#myModal').modal('hide');
+                        $('#replace-' + ind).load(result.url); // Carrega o resultado HTML para a div demarcada
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindForm(dialog);
+                    }
+                }
+            });
+            return false;
+        });
+    }
+
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@*<script type="text/javascript">
+
+        $(function () {
+            $.ajaxSetup({ cache: false });
+
+    Utilizando este JQuery $(document), o modal fica com o problema de Old Data Values, apresentando sempre o mesmo valor
+
+            $(document).on("click", "a[data-modal]", function (e) {
+                $('#myModalContent').load(this.href, function () {
+                    $('#myModal').modal({
+                        backdrop: 'static',
+                        keyboard: true
+                    }, 'show');
+                    bindForm(this);
+                });
+                return false;
+            });
+        });
+
+        function bindForm(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        var ind = result.indice;
+                        if (result.success && result.tipo == "pf") {
+                            $('#myModal').modal('hide');
+                            $('#myModal').modal('body').removeData();
+                            $('#replacePessoaFisica').load(result.url); // Carrega o resultado HTML para a div demarcada
+                        } else if (result.success && result.tipo == "pj") {
+                            $('#myModal').modal('hide');
+                            $('#myModal').modal('body').removeData();
+                            $('#replacePessoaJuridica').load(result.url); // Carrega o resultado HTML para a div demarcada
+                        } else if (result.success && result.tipo == "enderecoFisico") {
+                            $('#myModal').modal('hide');
+                            $('#myModal').modal('body').removeData();
+                            $('#replaceEnderecoPessoaFisica').load(result.url); // Carrega o resultado HTML para a div demarcada
+                        } else if (result.success && result.tipo == "enderecoJuridico") {
+                            $('#myModal').modal('hide');
+                            $('#replace-' + ind).load(result.url); // Carrega o resultado HTML para a div demarcada
+
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm(dialog);
+                        }
+                    }
+                });
+                return false;
+            });
+        }
+
+    </script>*@

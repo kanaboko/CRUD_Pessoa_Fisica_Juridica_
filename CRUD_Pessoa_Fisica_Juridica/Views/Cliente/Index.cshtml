@@ -1,0 +1,93 @@
+﻿@model IEnumerable<CRUD_Pessoa_Fisica_Juridica.ViewModel.PessoaViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<p>
+    @Html.ActionLink("Adicionar cliente", "Create", null ,new {@class="btn btn-primary" })
+</p>
+
+<div class="panel-default">
+    <div class="panel-heading">
+        <h3>Clientes</h3>
+    </div>
+    <div class="panel-body">
+        @if (Model.Any())
+        {
+            <table class="table table-responsive">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DataCadastro)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PessoaFisica)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PessoaJuridica)
+                    </th>
+                    <th></th>
+                </tr>
+                @foreach (var pessoa in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(model => pessoa.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => pessoa.DataCadastro)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(model => pessoa.PessoaFisica.Nome)
+                        </td>
+                        <td>
+                            @foreach (var pj in pessoa.PessoaJuridica)
+                            {
+
+                                @Html.DisplayFor(model => pj.RazaoSocial) <br />
+
+                            }
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Cliente", new { id = pessoa.Id })" data-modal="" class="btn btn-warning">
+                                <span title="Editar" class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a href="@Url.Action("Details", "Cliente", new { id = pessoa.Id })" data-modal="" class="btn btn-info">
+                                <span title="Editar" class="glyphicon glyphicon-eye-open"></span>
+                            </a>
+                            <a href="@Url.Action("Delete", "Cliente", new {id = pessoa.Id, pessoaId = pessoa.Id, indice = Guid.Empty, tipo = "p" })" data-modal="" class="btn btn-danger">
+                                <span title="Editar" class="glyphicon glyphicon-remove"></span>
+                            </a>                            
+                        </td>
+
+                    </tr>
+                }
+
+
+            </table>
+        }
+        else
+        {
+            <table class="table">
+                <tr>
+                    <th>
+                        Nenhum Endereço Cadastrado.
+                    </th>
+                </tr>
+            </table>
+        }
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,158 @@
+﻿@model CRUD_Pessoa_Fisica_Juridica.ViewModel.PessoaViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="panel">
+    <h4>PessoaFisicaViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PessoaFisica.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PessoaFisica.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PessoaFisica.Rg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PessoaFisica.Rg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PessoaFisica.Cpf)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PessoaFisica.Cpf)
+        </dd>
+
+    </dl>
+</div>
+
+@if (Model.PessoaFisica.Enderecos.Any())
+{
+    foreach (var endereco in Model.PessoaFisica.Enderecos)
+    {
+        <table class="table">
+
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(model => endereco.Logradouro)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => endereco.Numero)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => endereco.Cidade)
+                </td>
+
+            </tr>
+
+        </table>
+    }
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                Nenhum Endereço Cadastrado.
+            </th>
+        </tr>
+    </table>
+}
+@if (Model.PessoaJuridica.Any())
+{
+
+    foreach (var item in Model.PessoaJuridica)
+    {
+        <table class="table table-striped">
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => item.RazaoSocial)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => item.Cnpj)
+                </th>
+
+                <th></th>
+            </tr>
+
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(model => item.RazaoSocial)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Cnpj)
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>
+                    <div>
+                        @if (item.Enderecos.Any())
+                        {
+                            foreach (var obj in item.Enderecos)
+                            {
+
+                                <table>
+
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(model => obj.Logradouro)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => obj.Numero)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => obj.Cidade)
+                                        </td>
+
+                                    </tr>
+
+                                </table>
+                            }
+                        }
+                        else
+                        {
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        Nenhum Endereço Cadastrado.
+                                    </th>
+                                </tr>
+                            </table>
+                        }
+                    </div>
+                </td>
+            </tr>
+        </table>
+    }
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                Nenhuma Pessoa Juridica Cadastrada.
+            </th>
+        </tr>
+    </table>
+}
+
+<p>
+    |
+    @Html.ActionLink("Back to List", "Index")
+</p>

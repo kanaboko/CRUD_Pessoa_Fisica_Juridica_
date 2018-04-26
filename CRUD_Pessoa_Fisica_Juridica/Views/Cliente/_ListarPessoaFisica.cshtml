@@ -1,0 +1,41 @@
+﻿@model CRUD_Pessoa_Fisica_Juridica.ViewModel.PessoaFisicaViewModel
+
+
+<div class="panel">
+    <h4>ID-@Model.Id</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cpf)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cpf)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <a href="@Url.Action("EditPessoaFisica", "Cliente", new {id = Model.Id})"  data-modal=" " class="btn btn-warning">
+        <span title="Editar" class="glyphicon glyphicon-pencil"></span>
+    </a> 
+
+</div>
+
+
